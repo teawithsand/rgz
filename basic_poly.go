@@ -27,7 +27,7 @@ func BasicPolyMarshaler(
 		if err != nil {
 			return
 		}
-		msgData, err = mar.Marshal(msg)
+		msgData, err := mar.Marshal(msg)
 		if err != nil {
 			return
 		}
