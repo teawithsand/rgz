@@ -27,17 +27,14 @@ func BasicPolyMarshaler(
 		if err != nil {
 			return
 		}
-		data, err = mar.Marshal(msg)
+		msgData, err = mar.Marshal(msg)
 		if err != nil {
 			return
 		}
-		// alloc space for tag
-		data = append(data, make([]byte, tagLengthBytes)...)
-		// memmove tagLengthBytes to the right
-		for i := len(data) - tagLengthBytes; i >= 0; i-- {
-			data[i+tagLengthBytes] = data[i]
-		}
+		data = make([]byte, len(msgData)+tagLengthBytes)
+		// TOOD(teawithsand): Implement memmove approach
 		binary.BigEndian.PutUint32(data[:tagLengthBytes], uint32(tag))
+		copy(data[tagLengthBytes:], msgData)
 
 		return
 	})
